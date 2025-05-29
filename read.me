@@ -1,0 +1,88 @@
+Create virtual environment:
+python -m venv venv
+.\venv\Scripts\activate
+
+Install dependencies:
+pip install -r requirements.txt
+
+Test Dataset Generation:
+python src/data_generation.py
+
+Run the Streamlit App
+streamlit run src/app.py
+
+Run the API:
+python src/api.py
+The API starts at http://localhost:8000.
+You’ll see logs indicating the server is running and model files are loaded.
+Testing with Postman
+Open Postman: Download and install Postman if not already installed (Postman website).
+Test Health Check:
+Method: GET
+URL: http://localhost:8000/health
+Send Request
+Expected Response (Status: 200 OK):
+json
+
+{
+  "status": "healthy"
+}
+Test Prediction Endpoint:
+Method: POST
+URL: http://localhost:8000/predict
+Headers: Set Content-Type: application/json
+Body: Raw JSON, e.g.:
+json
+
+{
+  "food_name": "Injera"
+}
+Send Request
+Expected Response (Status: 200 OK):
+json
+
+{
+  "food_name": "Injera",
+  "glucose_content_g_per_100g": 33.2,
+  "diabetic_recommendation": {
+    "recommendation": "Not Recommended",
+    "details": "High glucose content, may cause blood sugar spikes."
+  }
+}
+Test Another Food (e.g., "Tibs"):
+json
+
+{
+  "food_name": "Tibs"
+}
+Expected Response:
+json
+
+{
+  "food_name": "Tibs",
+  "glucose_content_g_per_100g": 0.5,
+  "diabetic_recommendation": {
+    "recommendation": "Recommended",
+    "details": "Low glucose content, safe for diabetic patients."
+  }
+}
+Test Error Case:
+Send an empty food name:
+json
+
+{
+  "food_name": ""
+}
+Expected Response (Status: 500 Internal Server Error):
+json
+
+{
+  "detail": "Error predicting glucose content: Food name cannot be empty."
+}
+Example Postman Workflow
+Collection: Create a Postman collection named "Food Glucose API".
+Requests:
+"Health Check": GET http://localhost:8000/health
+"Predict Injera": POST http://localhost:8000/predict with {"food_name": "Injera"}
+"Predict Tibs": POST http://localhost:8000/predict with {"food_name": "Tibs"}
+Run: Send each request and verify the responses match the expected JSON.
