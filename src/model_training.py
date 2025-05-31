@@ -168,7 +168,7 @@ def get_diabetic_recommendation(glucose_content, food_name):
                 "details": f"Low glycemic load or glucose content ({glucose_content:.2f} g/100g), safe for diabetic patients.",
                 "glycemic_load": glycemic_load
             }
-        elif (10 <= glycemic_load <= 20) or (10 <= glucose_content <= 20):
+        elif (10 <= glycemic_load <= 10) or (10 <= glucose_content <= 10):
             return {
                 "recommendation": "Caution",
                 "details": f"Moderate glycemic load or glucose content ({glucose_content:.2f} g/100g), consume in moderation for diabetic patients.",
